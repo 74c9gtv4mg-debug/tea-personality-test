@@ -4,6 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>나에게 맞는 차 찾기</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="나에게 맞는 차 찾기">
+<meta property="og:description" content="열 가지 질문으로 지금의 나와 가장 잘 맞는 차를 찾아보세요.">
+<meta property="og:image" content="https://74c9gtv4mg-debug.github.io/tea-personality-test/og-default.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://74c9gtv4mg-debug.github.io/tea-personality-test/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://74c9gtv4mg-debug.github.io/tea-personality-test/og-default.png">
 <style>
 :root{--bg:#fcf9f1;--card:#fffefa;--ink:#2d3a2e;--sub:#6b7a69;--accent:#5a8a54;--line:#ede6d5;--hero:#f3eedd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a342a;--card:#354035;--ink:#f1f3ea;--sub:#b3bfb0;--accent:#9acb90;--line:#4a594a;--hero:#2f3a2f}}
@@ -120,10 +129,11 @@ mint:[['choco','fruit'],'시원함과 초콜릿, 과일 조합이 산뜻해요.'
 rooibos:[['cookie','scone'],'달큰한 맛이 구운 과자와 잘 어울려요.',['spicy','cheese'],'강한 맛이 부드러운 단맛을 눌러요.']
 };
 function sn(a){return '<div class="sn">'+a.map(k=>`<div><svg viewBox="0 0 60 60" role="img" aria-label="${SN[k][0]}">${SN[k][1]}</svg>${SN[k][0]}</div>`).join('')+'</div>'}
-function msg(k){return `나에게 맞는 차는 ${T[k].n}! 너도 해봐 👉 ${location.href}`}
+function shareUrl(k){return location.hostname.endsWith("github.io")?location.origin+location.pathname.replace(/[^\/]*$/,"")+"r-"+k+".html":location.href}
+function msg(k){return `나에게 맞는 차는 ${T[k].n}! 너도 해봐 👉 ${shareUrl(k)}`}
 function extras(k){const p=PR[k];return `<div class="sub" style="margin-top:30px">이 차와 함께하면 좋은 다과</div><div class="pair"><div class="box g"><h4>👍 잘 어울려요</h4>${sn(p[0])}<p>${p[1]}</p></div><div class="box b"><h4>👎 아쉬워요</h4>${sn(p[2])}<p>${p[3]}</p></div></div><div class="share"><div class="sub" style="margin-top:0">결과 공유하기</div><textarea id="sm" rows="2" readonly>${msg(k)}</textarea><div class="btns"><button class="main" onclick="shareIt('${k}')">공유하기</button><button class="main ghost" onclick="copyIt('${k}')">문구 복사</button></div><p class="ok" id="ok"></p></div>`}
 function copyIt(k){const ta=document.getElementById('sm');const done=()=>{document.getElementById('ok').textContent='복사됐어요!'};ta.select();try{navigator.clipboard.writeText(msg(k)).then(done,()=>{document.execCommand('copy');done()})}catch(e){try{document.execCommand('copy');done()}catch(e2){}}}
-function shareIt(k){if(navigator.share){navigator.share({title:'나에게 맞는 차 찾기',text:`나에게 맞는 차는 ${T[k].n}!`,url:location.href}).catch(()=>copyIt(k))}else copyIt(k)}
+function shareIt(k){if(navigator.share){navigator.share({title:'나에게 맞는 차 찾기',text:`나에게 맞는 차는 ${T[k].n}!`,url:shareUrl(k)}).catch(()=>copyIt(k))}else copyIt(k)}
 const Q=[
 {q:"지금 내 기분에 가까운 건?",o:[["차분하게 쉬고 싶어요",{chamomile:3,rooibos:2}],["피곤하고 집중이 필요해요",{green:3,black:2}],["속이 더부룩하고 답답해요",{pu:3,mint:2,oolong:1}],["기분 전환이 필요해요",{mint:3,oolong:2}]]},
 {q:"좋아하는 맛은?",o:[["고소하고 구수한 맛",{rooibos:3,oolong:2,pu:1}],["향긋하고 달콤한 맛",{chamomile:3,black:2,oolong:1}],["깔끔하고 청량한 맛",{green:3,mint:3}],["진하고 묵직한 맛",{pu:3,black:3}]]},
